@@ -38,6 +38,11 @@ public class ReadersDao {
     public void deleteReader (int id) {
         jdbcTemplate.update("DELETE FROM readers WHERE reader_id=?", id);
 
+    }
+    public void editReader(Reader updateReader, int id) {
+        jdbcTemplate.update("UPDATE readers SET surname=?, name=?, middle_name=?, year_of_birth=? WHERE reader_id=?",
+                updateReader.getSurname(), updateReader.getName(), updateReader.getMiddleName(), updateReader.getYearOfBirth(), id);
+
 
     }
 
