@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 
 public class Reader {
 
-    private int reader_id;
+   private int reader_id;
 
     @NotEmpty(message = "Поле не должно быть пустым")
     @Size(max = 100, message = "Фамилия не может быть больше 100")
@@ -32,7 +32,7 @@ public class Reader {
         this.yearOfBirth = yearOfBirth;
     }
 
-    public Reader() {
+    public Reader () {
 
     }
 
@@ -40,40 +40,21 @@ public class Reader {
         return reader_id;
     }
 
-    public void setReader_id(int reader_id) {
-        this.reader_id = reader_id;
-    }
-
     public String getSurname() {
         return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getMiddleName() {
         return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
     }
 
     public int getYearOfBirth() {
         return yearOfBirth;
     }
 
-    public void setYearOfBirth(int yearOfBirth) {
-        this.yearOfBirth = yearOfBirth;
-    }
 }
 

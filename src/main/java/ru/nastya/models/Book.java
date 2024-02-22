@@ -1,38 +1,35 @@
 package ru.nastya.models;
 
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+
 public class Book {
+    private int book_id;
+    @NotEmpty(message = "Поле не должно быть пустым")
     private String title;
-
+    @Min(1850)
     private int yearOfCreation;
-    private Author author;
 
-    public Book(String title, int yearOfCreation, Author author) {
+
+    public Book(int book_id, String title, int yearOfCreation) {
+        this.book_id = book_id;
         this.title = title;
         this.yearOfCreation = yearOfCreation;
-        this.author = author;
+
     }
+
+    public Book() {
+    }
+
+    public int getBook_id() { return book_id; }
 
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public int getYearOfCreation() {
         return yearOfCreation;
     }
 
-    public void setYearOfCreation(int yearOfCreation) {
-        this.yearOfCreation = yearOfCreation;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
 }

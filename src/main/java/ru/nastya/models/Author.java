@@ -1,48 +1,47 @@
 package ru.nastya.models;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 public class Author {
 
     private int id;
-    private String firstName;
-    private String middleName;
+
+    @NotEmpty(message = "Поле не должно быть пустым")
+    @Size(max = 100, message = "Фамилия не может быть больше 100")
     private String lastName;
 
-    public Author(int id, String firstName, String middleName, String lastName) {
+    @NotEmpty(message = "Поле не должно быть пустым")
+    @Size(max = 100, message = "Имя не может быть больше 100")
+    private String firstName;
+
+    @Size(max = 100, message = "Имя не может быть больше 100")
+    private String middleName;
+
+    public Author(int id, String lastName, String firstName, String middleName) {
         this.id = id;
+        this.lastName = lastName;
         this.firstName = firstName;
         this.middleName = middleName;
-        this.lastName = lastName;
+    }
+
+    public Author() {
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getMiddleName() {
         return middleName;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 }

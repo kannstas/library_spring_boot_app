@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book</title>
+</head>
+<body>
+<h3>Страница книги</h3>
+<p th:text="${book.getTitle()} + ' ' +  ${book.getAuthor().getLastName()}
++ ' ' ${book.getAuthor().getFirstName()} + ' ' ${book.getAuthor().getMiddleName()} +
+' ' ${book.getYearOfCreation()}">VALUE</p>
+
+
+<br>
+</body>
+</html>

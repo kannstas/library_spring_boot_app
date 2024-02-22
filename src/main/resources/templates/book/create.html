@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New book</title>
+</head>
+<body>
+<form th:action="@{/books}" th:method="POST" th:object="${book}">
+
+    <label for="title"> Введите название:</label>
+    <input type="text" th:field="*{title}" id="title">
+<!--    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{book.title}"> Title error</div>-->
+<!--    <br>-->
+<!--    <label for="lastName">Введите фамилию автора:</label>-->
+<!--    <input type="text" th:field="*{author.lastName}" id="lastName">-->
+<!--&lt;!&ndash;    <div style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{author.lastName}"> Author last name error&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--    <br>-->
+<!--    <label for="firstName">Введите имя автора:</label>-->
+<!--    <input type="text" th:field="*{author.firstName}" id="firstName">-->
+<!--&lt;!&ndash;    <div style="color: red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{author.firstName}"> Author first name error&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--    <label for="middleName">Введите отчество автора:</label>-->
+<!--    <input type="text" th:field="*{author.middleName}" id="middleName">-->
+<!--&lt;!&ndash;    <div style="color: red" th:if="${#fields.hasErrors('middleName')}" th:errors="*{author.middleName}"> Author middle name&ndash;&gt;-->
+<!--&lt;!&ndash;        error&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--    <br>-->
+    <br>
+    <label for="yearOfCreation">Введите год написания книги: </label>
+    <input type="text" th:field="*{yearOfCreation}" id="yearOfCreation"/>
+<!--    <div style="color:red" th:if="${#fields.hasErrors('yearOfCreation')}" th:errors="*{book.yearOfCreation}">Year of creation-->
+<!--        error-->
+<!--    </div>-->
+    <br/>
+    <input type="submit" value="Добавить книгу">
+</form>
+</body>
+</html>

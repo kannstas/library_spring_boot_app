@@ -9,9 +9,14 @@
 
 <h3>Страница читателя</h3>
 
-<p th:text="${reader.getSurname()} + ' ' +  ${reader.getName()} + ' ' + ${reader.getMiddleName()} + ', ' + ${reader.getYearOfBirth()}">VALUE</p>
+<p th:text="${reader.surname} + ' ' +  ${reader.name} + ' ' + ${reader.middleName} + ', ' + ${reader.yearOfBirth}">VALUE</p>
 <br>
-<form th:method="DELETE" th:action="@{/readers/{id}(id=${reader.getReader_id()})}">
+
+<form th:method="GET" th:action="@{/readers/{id}/edit(id=${reader.reader_id})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+<br>
+<form th:method="DELETE" th:action="@{/readers/{id}(id=${reader.reader_id})}">
     <input type="submit" value="Удалить"/>
 </form>
 </body>
