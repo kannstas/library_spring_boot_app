@@ -9,7 +9,7 @@
 <h3>Список читателей библиотеки</h3>
 
 <div th:each="reader : ${readers}">
-<a th:href="@{/readers/{id}(id=${reader.getReader_id()})}"
+<a th:href="@{/readers/{id}(id=${reader.getReaderId()})}"
    th:text="${reader.getSurname()} + ' ' +  ${reader.getName()} + ' ' + ${reader.getMiddleName()} + ', ' + ${reader.getYearOfBirth()}"></a>
 </div>
 <br>

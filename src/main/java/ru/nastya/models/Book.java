@@ -4,16 +4,16 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
 public class Book {
-    private int book_id;
+    private int bookId;
     @NotEmpty(message = "Поле не должно быть пустым")
-    private String title;
+    private String bookTitle;
     @Min(1850)
     private int yearOfCreation;
 
 
-    public Book(int book_id, String title, int yearOfCreation) {
-        this.book_id = book_id;
-        this.title = title;
+    public Book(int bookId, String bookTitle, int yearOfCreation) {
+        this.bookId = bookId;
+        this.bookTitle = bookTitle;
         this.yearOfCreation = yearOfCreation;
 
     }
@@ -21,14 +21,25 @@ public class Book {
     public Book() {
     }
 
-    public int getBook_id() { return book_id; }
+    public int getBookId() { return bookId; }
 
-    public String getTitle() {
-        return title;
+    public String getBookTitle() {
+        return bookTitle;
     }
 
     public int getYearOfCreation() {
         return yearOfCreation;
     }
 
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
+    }
+
+    public void setYearOfCreation(int yearOfCreation) {
+        this.yearOfCreation = yearOfCreation;
+    }
 }

@@ -4,7 +4,7 @@
     <title>Edit reader</title>
 </head>
 <body>
-<form th:method="PATCH" th:action="@{/readers/{id}(id=${reader.getReader_id()})}"  th:object="${reader}">
+<form th:method="PATCH" th:action="@{/readers/{id}(id=${reader.getReaderId()})}" th:object="${reader}">
 
     <label for="surname">Введите фамилию:</label>
     <input type="text" th:field="*{surname}" id="surname">

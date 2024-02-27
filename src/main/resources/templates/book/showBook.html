@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book</title>
+</head>
+<body>
+<h3>Страница книги</h3>
+<p th:text="${book.getBookTitle()}  + ', ' +  ${book.getYearOfCreation()}">VALUE</p>
+<p th:text="${author.getSurname() + ' ' + author.getName() + ' ' + author.getMiddleName()}">VALUE</p>
+<br>
+</body>
+</html>
