@@ -8,7 +8,20 @@
 
 <h3>Страница читателя</h3>
 
-<p th:text="${reader.getSurname()} + ' ' +  ${reader.getName()} + ' ' + ${reader.getMiddleName()} + ', ' + ${reader.getYearOfBirth()}">VALUE</p>
+<p th:text="${reader.getSurname()} + ' ' +  ${reader.getName()} + ' ' + ${reader.getMiddleName()} + ', ' + ${reader.getYearOfBirth()}">
+    VALUE</p>
+<br>
+<hr>
+<div th:if="${books.isEmpty()}">
+    <h4>Человек не взял ни одной книги</h4>
+</div>
+<div th:if="${!books.isEmpty()}">
+    <h4>Книги</h4>
+    <table th:each="book : ${books}">
+        <tr th:text="${book.getBookTitle() + ', ' + book.getYearOfCreation()}"></tr>
+    </table>
+</div>
+<hr>
 <br>
 <form th:method="GET" th:action="@{/readers/{id}/edit(id=${reader.getReaderId()})}">
     <input type="submit" value="Редактировать"/>
