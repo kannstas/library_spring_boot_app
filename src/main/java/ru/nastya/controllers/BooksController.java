@@ -8,8 +8,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.nastya.dao.BooksDao;
+import ru.nastya.dao.ReadersDao;
 import ru.nastya.models.Author;
 import ru.nastya.models.Book;
+import ru.nastya.models.Reader;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -17,10 +20,12 @@ import java.util.List;
 @RequestMapping("/books")
 public class BooksController {
     BooksDao booksDao;
+    ReadersDao readersDao;
 
     @Autowired
-    public BooksController(BooksDao booksDao) {
+    public BooksController(BooksDao booksDao, ReadersDao readersDao) {
         this.booksDao = booksDao;
+        this.readersDao = readersDao;
     }
 
     @InitBinder
@@ -36,10 +41,13 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
-    public String showBook(Model model,
+    public String showBook(Model model, @ModelAttribute("reader") Reader reader,
                            @PathVariable("id") int id) {
-        model.addAttribute("book", booksDao.showBook(id));
+        Book book = booksDao.showBook(id);
+        model.addAttribute("book", book);
         model.addAttribute("author", booksDao.showAuthor(id));
+        model.addAttribute("owner", booksDao.findReader(id));
+        model.addAttribute("readers", readersDao.getAll());
         return "book/showBook";
     }
 
@@ -50,10 +58,10 @@ public class BooksController {
     }
 
     @GetMapping("/{id}/edit")
-    public String editBook(@ModelAttribute("book") Book book,
-                           @ModelAttribute("author") Author author,
+    public String editBook(Model model,
                            @PathVariable("id") int id) {
-        booksDao.showBook(id);
+        model.addAttribute("book", booksDao.showBook(id));
+        model.addAttribute("author", booksDao.showAuthor(id));
         return "book/edit";
     }
 
@@ -65,8 +73,23 @@ public class BooksController {
         if (result.hasErrors()) {
             return "redirect:readers/new";
         }
-//        booksDao.editBook(book,author, id);
-        return "redirect:/readers";
+        booksDao.editBook(book, id);
+        if (author.getName() != null && author.getSurname() != null) {
+            booksDao.editAuthor(author);
+        }
+        return "redirect:/books";
+    }
+
+    @PatchMapping("/{id}/release")
+    public String releaseBook(@PathVariable("id") int id) {
+        booksDao.releaseBook(id);
+        return "redirect:/books";
+    }
+
+    @PatchMapping("/{id}/assign")
+    public String assignReader(@PathVariable("id") int id, @ModelAttribute Reader designatedReader) {
+        booksDao.assignReader(id, designatedReader);
+        return "redirect:/books/" + id;
     }
 
     ////    @Transactional
@@ -87,5 +110,10 @@ public class BooksController {
         return "redirect:/books";
     }
 
+    @DeleteMapping("/{id}")
+    public String deleteBooks(@PathVariable("id") int id) {
+        booksDao.deleteBook(id);
+        return "redirect:/books";
+    }
 
 }
