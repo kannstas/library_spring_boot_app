@@ -6,8 +6,6 @@
 </head>
 <body>
 <form th:action="@{/books}" th:method="POST">
-    <!--    <div th:if="${author == null}"-->
-    <!--         th:with="author=${T(ru.nastya.models.Author).create()}"></div>-->
     <label>Введите фамилию автора:</label>
     <input type="text" th:value="${author.surname}" name="surname">
     <br>
