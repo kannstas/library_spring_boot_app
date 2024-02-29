@@ -32,6 +32,7 @@ public class ReadersController {
     @GetMapping("/{id}")
     public String showReader(@PathVariable("id") int id, Model model) {
         model.addAttribute("reader", readersDao.showReader(id));
+        model.addAttribute("books", readersDao.findBorrowedBooks(id));
         return "reader/showReader";
     }
 
@@ -39,7 +40,6 @@ public class ReadersController {
     public String newReader(@ModelAttribute("reader") Reader reader) {
         return "reader/create";
     }
-
 
     @GetMapping("/{id}/edit")
     public String edit(Model model,
