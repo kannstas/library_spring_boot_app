@@ -10,36 +10,58 @@ public class Book {
     @Min(1850)
     private int yearOfCreation;
 
+    private boolean isBusy;
 
-    public Book(int bookId, String bookTitle, int yearOfCreation) {
+    private int readerId;
+
+    public Book(int bookId, String bookTitle, int yearOfCreation, boolean isBusy, int readerId) {
         this.bookId = bookId;
         this.bookTitle = bookTitle;
         this.yearOfCreation = yearOfCreation;
-
+        this.isBusy = isBusy;
+        this.readerId = readerId;
     }
 
     public Book() {
     }
 
-    public int getBookId() { return bookId; }
-
-    public String getBookTitle() {
-        return bookTitle;
-    }
-
-    public int getYearOfCreation() {
-        return yearOfCreation;
+    public int getBookId() {
+        return bookId;
     }
 
     public void setBookId(int bookId) {
         this.bookId = bookId;
     }
 
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
     public void setBookTitle(String bookTitle) {
         this.bookTitle = bookTitle;
     }
 
+    public int getYearOfCreation() {
+        return yearOfCreation;
+    }
+
     public void setYearOfCreation(int yearOfCreation) {
         this.yearOfCreation = yearOfCreation;
+    }
+
+    public boolean isBusy() {
+        return isBusy;
+    }
+
+    public void setBusy(boolean busy) {
+        isBusy = busy;
+    }
+
+    public int getReaderId() {
+        return readerId;
+    }
+
+    public void setReaderId(int readerId) {
+        this.readerId = readerId;
     }
 }
