@@ -6,8 +6,44 @@
 </head>
 <body>
 <h3>Страница книги</h3>
-<p th:text="${book.getBookTitle()}  + ', ' +  ${book.getYearOfCreation()}">VALUE</p>
-<p th:text="${author.getSurname() + ' ' + author.getName() + ' ' + author.getMiddleName()}">VALUE</p>
+
+<span th:text="${book.getBookTitle() +', '}"></span>
+    <span th:if="${author != null and author.surname != null and author.name != null}">
+        <span th:text="${author.getSurname() + ' ' + author.getName() + ' ' + #objects.nullSafe(author.getMiddleName(),'') + ', '}"></span>
+    </span>
+    <span th:text="${book.getYearOfCreation()}"></span>
+
+<div th:unless="${author != null and author.surname != null and author.name != null}">
+    <p>Книга без автора</p>
+</div>
+
+<div th:if="${owner==null}">
+    <label for="reader">Эта книга свободна. Кому её назначить?</label>
+    <br>
+    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getBookId()})}">
+        <span>Выберите человека:</span>
+        <select th:object="${reader}" th:field="*{readerId}" id="reader" >
+            <option th:each="reader : ${readers}" th:value="${reader.getReaderId()}"
+            th:text="${reader.getSurname() + ' ' + reader.getName() + ' ' + #objects.nullSafe(reader.getMiddleName(),'')}"></option>
+        </select>
+        <input type="submit" value="Назначить">
+    </form>
+</div>
+
+<div th:if="${owner!=null}">
+    <span>Книга сейчас у: </span><span
+        th:text="${owner.getSurname() + ' ' + owner.getName() + ' ' + owner.getMiddleName()}"></span>
+    <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getBookId()})}">
+        <input type="submit" value="Освободить книгу">
+    </form>
+</div>
+<hr>
+<form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getBookId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getBookId()})}">
+    <input type="submit" value="Удалить"/>
+</form>
 <br>
 </body>
 </html>
