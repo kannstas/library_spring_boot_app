@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Books</title>
+    <style>
+        hr {
+            border: none; /* Убираем границу */
+            background-color: black; /* Цвет линии */
+            color: red; /* Цвет линии для IE6-7 */
+            height: 2px; /* Толщина линии */
+        }
+    </style>
 </head>
 <body>
 <h3>Список книг в библиотеке</h3>
-
+<br>
 <div th:each="book: ${books}">
     <a th:href="@{/books/{id}(id=${book.getBookId()})}"
-       th:text="${book.getBookTitle()} + ', '+ ${book.getYearOfCreation()} "></a>
+       th:text="${book.getBookTitle()} + ', '+ ${book.getYearOfCreation()}  "></a>
 </div>
 <br>
-<a th:href="@{/books/new}">Добавить книгу</a>
+<hr>
+<button onclick="document.location='books/new'">Добавить книгу</button>
+<br>
+<button onclick="document.location='readers/new'">Добавить читателя</button>
 </body>
 </html>
