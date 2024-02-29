@@ -38,7 +38,6 @@ public class Reader {
         return readerId;
     }
 
-
     public String getSurname() {
         return surname;
     }
