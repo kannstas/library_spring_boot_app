@@ -2,9 +2,11 @@ package ru.nastya.dao;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.nastya.models.Author;
 import ru.nastya.models.Book;
+import ru.nastya.models.Reader;
 
 import java.sql.*;
 import java.util.List;
@@ -18,12 +20,22 @@ public class BooksDao {
             "postgres"
     );
 
+    RowMapper<Book> bookRowMapper = (rs, rowNumber) ->
+            new Book(
+                    rs.getInt("book_id"),
+                    rs.getString("book_title"),
+                    rs.getInt("year_of_creation"),
+                    rs.getBoolean("is_busy"),
+                    rs.getInt("reader_id")
+            );
+
+
     public BooksDao(JdbcTemplate jdbcTemplate) throws SQLException {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<Book> getAll() {
-        return jdbcTemplate.query("SELECT * FROM books", new BeanPropertyRowMapper<>(Book.class));
+        return jdbcTemplate.query("SELECT * FROM books", bookRowMapper);
     }
 
     public Author showAuthor(int id) {
@@ -35,8 +47,11 @@ public class BooksDao {
     }
 
     public Book showBook(int id) {
-        return jdbcTemplate.query("SELECT books.book_title, books.year_of_creation FROM books WHERE book_id=?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
+        return jdbcTemplate.query("SELECT * FROM books WHERE book_id=?",
+                bookRowMapper,
+                id).stream()
+                .findAny()
+                .orElse(null);
     }
 
     //
@@ -57,17 +72,46 @@ public class BooksDao {
             jdbcTemplate.update("INSERT INTO authors(author_id,surname, name, middle_name) VALUES (?, ?, ?, ?)",
                     authorId, author.getSurname(), author.getName(), author.getMiddleName());
             jdbcTemplate.update("INSERT INTO books (book_id,book_title, year_of_creation, is_busy, reader_id) VALUES (?, ?, ?, ?, ?)",
-                    bookId, book.getBookTitle(), book.getYearOfCreation(), true, 13);
+                    bookId, book.getBookTitle(), book.getYearOfCreation(), false, null);
             jdbcTemplate.update("INSERT INTO books_authors (books_id, author_id) VALUES (?,?)",
                     bookId, authorId);
         } else {
             jdbcTemplate.update("INSERT INTO books (book_id,book_title, year_of_creation, is_busy, reader_id) VALUES (?, ?, ?, ?, ?)",
                     bookId, book.getBookTitle(), book.getYearOfCreation(), true, 13);
         }
-
     }
 
-    public void editBook(Author author, Book book) {
+    public void editBook(Book updateBook, int id) {
+        jdbcTemplate.update("UPDATE books SET book_title=?, year_of_creation=? WHERE book_id=?",
+                updateBook.getBookTitle(), updateBook.getYearOfCreation(), id);
+    }
 
+    public void editAuthor(Author author) {
+        jdbcTemplate.update("UPDATE authors SET surname=?, name=?, middle_name=?",
+                author.getSurname(), author.getName(), author.getMiddleName());
+    }
+
+    public void deleteBook(int id) {
+        jdbcTemplate.update("DELETE FROM books_authors WHERE books_id=?", id);
+        jdbcTemplate.update("DELETE FROM books WHERE book_id=?", id);
+    }
+
+    public void releaseBook (int id) {
+        jdbcTemplate.update("UPDATE books SET is_busy=false, reader_id = null WHERE book_id=?", id);
+    }
+
+    public void assignReader (int id, Reader designatedReader) {
+        jdbcTemplate.update("UPDATE books SET reader_id=?, is_busy=true WHERE book_id =?", designatedReader.getReaderId(), id);
+    }
+
+    public Reader findReader (int id) {
+       return jdbcTemplate.query("SELECT surname, name, middle_name " +
+                               "FROM books " +
+                               "JOIN readers ON books.reader_id=readers.reader_id " +
+                               "WHERE book_id=?",
+                new Object[]{id},
+                new BeanPropertyRowMapper<>(Reader.class)).stream()
+                .findAny()
+                .orElse(null);
     }
 }
